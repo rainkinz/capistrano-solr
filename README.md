@@ -18,8 +18,9 @@ Or install it yourself as:
 
 ## Usage
 
-See the example install which contains a fully working version that can be
-deployed to a local Vagrant instance.
+See the example https://github.com/rainkinz/capistrano-solr-example project
+which contains a fully working version that can be deployed to a local Vagrant
+instance.
 
 ## Development
 
