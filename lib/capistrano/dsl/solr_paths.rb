@@ -64,7 +64,7 @@ module Capistrano
       end
 
       def solr_service_name
-        fetch(:solr_service_name, "cap-solr")
+        fetch(:solr_service_name, "solr")
       end
 
       def solr_service_script
@@ -92,7 +92,7 @@ module Capistrano
       end
 
       def zookeeper_service_name
-        fetch(:zookeeper_service_name, "cap-zookeeper")
+        fetch(:zookeeper_service_name, "zookeeper")
       end
 
       ##
