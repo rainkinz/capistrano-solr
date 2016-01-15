@@ -14,13 +14,18 @@
 # limitations under the License.
 
 maxClientCnxns=0
+
 # The number of milliseconds of each tick
 tickTime=10000
-# The number of ticks that the initial&nbsp;
-# synchronization phase can take
+
+# The number of ticks that the initial synchronization phase can take, or
+# initLimit is timeouts ZooKeeper uses to limit the length of time the ZooKeeper
+# servers in quorum have to connect to a leader.
 initLimit=10
-# The number of ticks that can pass between&nbsp;
-# sending a request and getting an acknowledgement
+
+# The number of ticks that can pass between sending a request and getting an
+# acknowledgement or the entry syncLimit limits how far out of date a server can
+# be from a leader.
 syncLimit=5
 
 # the directory where the snapshot is stored.

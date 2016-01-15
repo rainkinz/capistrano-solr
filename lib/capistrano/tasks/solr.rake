@@ -239,7 +239,7 @@ namespace :solr do
     end
   end
 
-  task :restart_solr do
+  task :restart do
     invoke "solr:stop"
     invoke "solr:start"
   end
@@ -266,7 +266,7 @@ namespace :solr do
       invoke 'solr:configure_solr_service'
       invoke 'solr:update_solr_service_config'
       invoke 'solr:create_solr_chroot'
-      invoke 'solr:restart_solr'
+      invoke 'solr:restart'
     end
   end
 end
