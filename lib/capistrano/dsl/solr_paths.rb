@@ -10,13 +10,8 @@ module Capistrano
 
       # Name of the directory on the nodes where we install our components,
       # relative to the deploy user directory
-      def install_base_name
-        'solr'
-      end
-
       def install_home
-        # File.join(user_home, install_base_name)
-        "/opt/#{install_base_name}"
+        fetch(:install_home, "/opt")
       end
 
       def user_home
@@ -34,6 +29,10 @@ module Capistrano
 
       def default_download_dir
         File.join(user_home, "solr_downloads")
+      end
+
+      def zkcli
+        File.join(solr_install_dir, "server/scripts/cloud-scripts/zkcli.sh")
       end
 
       ##
@@ -76,7 +75,7 @@ module Capistrano
       #
 
       def zookeeper_url
-        'http://www.mirrorservice.org/sites/ftp.apache.org/zookeeper/zookeeper-3.4.7/zookeeper-3.4.7.tar.gz'
+        'http://www.mirrorservice.org/sites/ftp.apache.org/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz'
       end
 
       def zookeeper_tgz

@@ -105,9 +105,9 @@ SOLR_OPTS="$SOLR_OPTS -Xss256k"
 #SOLR_AUTHENTICATION_CLIENT_CONFIGURER=
 #SOLR_AUTHENTICATION_OPTS=
 
-SOLR_PID_DIR="/var/cap-solr"
-SOLR_HOME="/var/cap-solr/data"
-LOG4J_PROPS="/var/cap-solr/log4j.properties"
-SOLR_LOGS_DIR="/var/cap-solr/logs"
+SOLR_PID_DIR="/var/<%= solr_service_name %>"
+SOLR_HOME="/var/<%= solr_service_name %>/data"
+LOG4J_PROPS="/var/<%= solr_service_name %>/log4j.properties"
+SOLR_LOGS_DIR="/var/<%= solr_service_name %>/logs"
 SOLR_PORT="8983"
 

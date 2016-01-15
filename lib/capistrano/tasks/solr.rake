@@ -166,10 +166,16 @@ namespace :solr do
           # -u     User to own the Solr files and run the Solr process as; defaults to solr
           #      This script will create the specified user account if it does not exist.
           # -f     Upgrade Solr. Overwrite symlink and init script of previous installation.
-          execute :sudo, "cd #{download_dir}; sudo ./install_solr_service.sh #{solr_tgz} -s #{solr_service_name} -u #{solr_user}"
+          execute :sudo, "cd #{download_dir}; sudo ./install_solr_service.sh #{solr_tgz} -i #{install_home} -s #{solr_service_name} -u #{solr_user}"
+
+
+          execute :sudo, "chown -R #{solr_user} #{solr_install_dir}"
+
+          # The zkcli doesn't seem to be executable by default!
+          execute :sudo, "chmod u+x #{zkcli}"
 
           # Stop the service
-          execute :sudo, solr_service_script, "stop"
+          execute :sudo, solr_service_script, "stop", raise_on_non_zero_exit: false
         end
       end
     end
@@ -183,7 +189,8 @@ namespace :solr do
       config = {
         :heap_size => "512m",
         :zk_host => "ZK_HOST=#{zk_host}",
-        :zk_client_timeout => 'ZK_CLIENT_TIMEOUT="15000"'
+        :zk_client_timeout => 'ZK_CLIENT_TIMEOUT="15000"',
+        :solr_service_name => solr_service_name
       }
 
       tmp_path = "/tmp/#{solr_service_name}.in.sh"
@@ -201,7 +208,7 @@ namespace :solr do
 
   task :create_solr_chroot do
     on roles(fetch(:solr_roles))[0] do |host|
-      zkcli = File.join(solr_install_dir, "server/scripts/cloud-scripts/zkcli.sh")
+      # zkcli = File.join(solr_install_dir, "server/scripts/cloud-scripts/zkcli.sh")
       if capture("#{zkcli} -zkhost #{zookeeper_hosts.join(',')} -cmd list") =~ /\/solr/
         info "Already create /solr in zookeeper"
       else
@@ -212,29 +219,29 @@ namespace :solr do
   end
 
   desc "Gets the status of the solr service"
-  task :solr_status do
+  task :status do
     on roles(fetch(:solr_roles)) do
       puts capture(:sudo, "/etc/init.d/#{solr_service_name} status; true")
     end
   end
 
   desc "Stops solr on all configured nodes"
-  task :stop_solr do
+  task :stop do
     on roles(fetch(:solr_roles)) do |host|
       execute :sudo, solr_service_script, "stop", raise_on_non_zero_exit: false
     end
   end
 
   desc "Stops solr on all configured nodes"
-  task :start_solr do
+  task :start do
     on roles(fetch(:solr_roles)) do |host|
       execute :sudo, solr_service_script, "start"
     end
   end
 
   task :restart_solr do
-    invoke "solr:stop_solr"
-    invoke "solr:start_solr"
+    invoke "solr:stop"
+    invoke "solr:start"
   end
 
   desc 'Sets up a solr instance'
@@ -255,7 +262,7 @@ namespace :solr do
       invoke 'solr:start_zookeeper'
 
       invoke 'solr:download_solr'
-      invoke 'solr:extract_solr'
+      # invoke 'solr:extract_solr'
       invoke 'solr:configure_solr_service'
       invoke 'solr:update_solr_service_config'
       invoke 'solr:create_solr_chroot'

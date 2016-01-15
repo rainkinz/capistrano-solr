@@ -1,5 +1,6 @@
 require "capistrano/solr/version"
 load File.expand_path("../tasks/solr.rake", __FILE__)
+load File.expand_path("../tasks/zookeeper.rake", __FILE__)
 
 module Capistrano
   module Solr
