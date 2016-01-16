@@ -190,7 +190,8 @@ namespace :solr do
         :heap_size => "512m",
         :zk_host => "ZK_HOST=#{zk_host}",
         :zk_client_timeout => 'ZK_CLIENT_TIMEOUT="15000"',
-        :solr_service_name => solr_service_name
+        :solr_service_name => solr_service_name,
+        :server_name_or_ip => host.name
       }
 
       tmp_path = "/tmp/#{solr_service_name}.in.sh"
