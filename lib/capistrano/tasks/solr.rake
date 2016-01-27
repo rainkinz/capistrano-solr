@@ -186,12 +186,13 @@ namespace :solr do
       # Update the config
       zk_host = zookeeper_hosts.map {|ip| "#{ip}:2181" }.join(',')
       zk_host = "#{zk_host}/solr"
+
       config = {
         :heap_size => "512m",
         :zk_host => "ZK_HOST=#{zk_host}",
         :zk_client_timeout => 'ZK_CLIENT_TIMEOUT="15000"',
         :solr_service_name => solr_service_name,
-        :server_name_or_ip => host.name
+        :server_name_or_ip => host.hostname
       }
 
       tmp_path = "/tmp/#{solr_service_name}.in.sh"
@@ -240,6 +241,7 @@ namespace :solr do
     end
   end
 
+  desc "Stops and starts all configured solr instances"
   task :restart do
     invoke "solr:stop"
     invoke "solr:start"

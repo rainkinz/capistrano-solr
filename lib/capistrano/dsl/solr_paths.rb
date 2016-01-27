@@ -14,6 +14,10 @@ module Capistrano
         fetch(:install_home, "/opt")
       end
 
+      def solr_install_root
+        "#{install_home}/solr"
+      end
+
       def user_home
         File.join("/home", fetch(:user))
       end
