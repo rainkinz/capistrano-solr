@@ -49,9 +49,13 @@ module Capistrano
       ##
       # Solr Components
       #
+      #
+      def solr_version
+        "5.4.1"
+      end
 
       def solr_url
-        'http://www.mirrorservice.org/sites/ftp.apache.org/lucene/solr/5.4.0/solr-5.4.0.tgz'
+        "http://www.mirrorservice.org/sites/ftp.apache.org/lucene/solr/#{solr_version}/solr-#{solr_version}.tgz"
       end
 
       def solr_path

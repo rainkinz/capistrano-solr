@@ -17,18 +17,6 @@ namespace :zookeeper do
     end
   end
 
-  task :upload_java_install_script do
-    on roles(fetch(:solr_roles)) do |host|
-      upload! template('java_install.sh'), download_dir
-      execute "chmod u+x #{java_install_script_path}"
-    end
-  end
-
-  task :install_java do
-    on roles(fetch(:solr_roles)) do |host|
-      execute :sudo, java_install_script_path
-    end
-  end
 
   task :download_zookeeper do
     on roles(fetch(:zookeeper_roles)) do |host|

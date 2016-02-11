@@ -10,7 +10,11 @@ end
 
 # By default only deploy to servers with the solr role
 set :solr_roles, :solr
+
+# By default only deploy zookeeper to servers with the :zookeeper role
 set :zookeeper_roles, :zookeeper
+
+# Create 2 shards
 set :solr_num_shards, 2
 
 namespace :solr do
