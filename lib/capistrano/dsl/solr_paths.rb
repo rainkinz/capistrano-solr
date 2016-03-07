@@ -11,12 +11,12 @@ module Capistrano
       # Name of the directory on the nodes where we install our components,
       # relative to the deploy user directory
       def install_base_name
-        'solr'
+        ''
       end
 
       def install_home
         # File.join(user_home, install_base_name)
-        "/opt/#{install_base_name}"
+        File.join("/opt", install_base_name)
       end
 
       def user_home
@@ -24,12 +24,12 @@ module Capistrano
       end
 
       def solr_user
-        fetch(:user)
+        fetch(:user, 'solr')
       end
 
       # The path to download the solr distribution to
       def download_dir
-        fetch(:solr_download_path, default_download_dir)
+        fetch(:download_dir, default_download_dir)
       end
 
       def default_download_dir
@@ -48,7 +48,7 @@ module Capistrano
       #
 
       def solr_url
-        'http://www.mirrorservice.org/sites/ftp.apache.org/lucene/solr/5.4.0/solr-5.4.0.tgz'
+        'http://www.mirrorservice.org/sites/ftp.apache.org/lucene/solr/5.4.1/solr-5.4.1.tgz'
       end
 
       def solr_path
@@ -67,8 +67,28 @@ module Capistrano
         fetch(:solr_service_name, "solr")
       end
 
+      def solr_home_dir
+        fetch(:solr_home, "/var/solr/data")
+      end
+
+      def solr_pid_dir
+        fetch(:solr_pid_dir, "/var/solr/pid")
+      end
+
+      def solr_logs_dir
+        fetch(:solr_logs_dir, "/var/solr/logs")
+      end
+
+      def solr_log4j_props_path
+        fetch(:solr_log4j_props_path, "/var/solr/log4j.properties")
+      end
+
       def solr_service_script
         File.join("/etc/init.d", solr_service_name)
+      end
+
+      def solr_port
+        8983
       end
 
       ##
@@ -76,7 +96,7 @@ module Capistrano
       #
 
       def zookeeper_url
-        'http://www.mirrorservice.org/sites/ftp.apache.org/zookeeper/zookeeper-3.4.7/zookeeper-3.4.7.tar.gz'
+        'http://www.mirrorservice.org/sites/ftp.apache.org/zookeeper/zookeeper-3.4.8/zookeeper-3.4.8.tar.gz'
       end
 
       def zookeeper_tgz

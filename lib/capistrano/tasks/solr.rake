@@ -166,7 +166,7 @@ namespace :solr do
           # -u     User to own the Solr files and run the Solr process as; defaults to solr
           #      This script will create the specified user account if it does not exist.
           # -f     Upgrade Solr. Overwrite symlink and init script of previous installation.
-          execute :sudo, "cd #{download_dir}; sudo ./install_solr_service.sh #{solr_tgz} -s #{solr_service_name} -u #{solr_user}"
+          execute :sudo, "cd #{download_dir}; sudo ./install_solr_service.sh #{solr_tgz} -f -s #{solr_service_name} -u #{solr_user}"
 
           # Stop the service
           execute :sudo, solr_service_script, "stop"
@@ -183,7 +183,11 @@ namespace :solr do
       config = {
         :heap_size => "512m",
         :zk_host => "ZK_HOST=#{zk_host}",
-        :zk_client_timeout => 'ZK_CLIENT_TIMEOUT="15000"'
+        :zk_client_timeout => 'ZK_CLIENT_TIMEOUT="15000"',
+        :solr_home_dir => solr_home_dir,
+        :solr_pid_dir => solr_pid_dir,
+        :solr_logs_dir => solr_logs_dir,
+        :solr_port => solr_port
       }
 
       tmp_path = "/tmp/#{solr_service_name}.in.sh"
